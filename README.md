@@ -1,2 +1,2 @@
 # lighthouse
-A Discord bot for my Pharo server
+A bot for Discord used in my Pharo server
