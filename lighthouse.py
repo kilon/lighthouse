@@ -3,6 +3,15 @@ from discord.ext import commands
 import random
 import secret
 
+import asyncio
+
+import logging
+
+
+# Enable info level logging
+logging.basicConfig(level=logging.INFO)
+
+
 description = '''An example bot to showcase the discord.ext.commands extension
 module.
 There are a number of utility commands being showcased here.'''
