@@ -10,6 +10,7 @@ import logging
 
 import feedparser
 import aiohttp
+import html2text
 # import requests
 
 respond = aiohttp.ClientSession()
@@ -17,65 +18,85 @@ respond = aiohttp.ClientSession()
 
 rssFeedPharoUsers = feedparser.parse("http://forum.world.st/Pharo-Smalltalk-Users-f1310670.xml")
 rssFeedPharoDevs = feedparser.parse("http://forum.world.st/Pharo-Smalltalk-Developers-f1294837.xml")
-rssFeedPharoUsers = {"entries":[0,1,2,3,4,5,6,7,8,9,10]}
+#rssFeedPharoUsers = {"entries":[0,1,2,3,4,5,6,7,8,9,10]}
 loop = asyncio.get_event_loop()
+description = '''An example bot to showcase the discord.ext.commands extension
+module.
+There are a number of utility commands being showcased here.'''
+bot = commands.Bot(command_prefix='?', description=description)
+lighthouse_channel = discord.Object(id=secret.channels["lighthouse"])
+general_channel =  discord.Object(id=secret.channels["general"])
+development_channel = discord.Object(id=secret.channels["development"])
+mailing_lists_channel = discord.Object(id=secret.channels["mailing-lists"])
+
 async def sendEmbMessage(message,channel):
-    if channel=="general":
-        async with aiothttp.ClientSession() as requests:
-            await requests.post(secret.webhGeneral,data=message)
+        await bot.send_message(channel, embed=message)
 
-        logging.info("message sent to general")
-    if channel == "development":
-        requests.post(secret.webhDevelopment, data=message )
+        logging.info("message sent")
 
-        logging.info("message sent to development")
-
-
-async def checkRSSFeed():
+async def checkRSSFeed(channel):
     global rssFeedPharoUsers, rssFeedPharoDevs
     logging.info("checking RSS feeds")
     count = 0
     newRssFeedPharoUsers = feedparser.parse("http://forum.world.st/Pharo-Smalltalk-Users-f1310670.xml")
     newRssFeedPharoDevs = feedparser.parse("http://forum.world.st/Pharo-Smalltalk-Developers-f1294837.xml")
+    entryFound= False
+    logging.info("\nChecking Pharo-Users\n")
+    logging.info("Pharo-users len new: %d", len(newRssFeedPharoUsers))
+    for newCount in range(0,len(newRssFeedPharoUsers)-1):
+        logging.info("[Pharo-Users] newEntry: %d",newCount)
+        entryFound = False
+        newEntry = newRssFeedPharoUsers["entries"][newCount]
+        for oldCount in range(0,len(rssFeedPharoUsers)-1) :
+            logging.info("[Pharo-Users] oldEntry: %d",oldCount)
+            oldEntry = rssFeedPharoUsers["entries"][oldCount]
+            if oldEntry["id"] == newEntry["id"] :
+                entryFound = True
+                break
+            entry = newEntry
+        if not entryFound:
+            count = count + 1
+            logging.info("\n%d)Found a new entry in the Pharo-Users rss\n",count)
+            content = html2text.html2text(entry["content"][0]["value"])
+            content = content[0:100]+" ... (click title for more)"
+            message = discord.Embed(title="[Pharo-Users] "+entry["title"], url=entry["link"] ,colour = 14088353,  description = content )
+            message.set_author(name=entry["author"])
+            await sendEmbMessage(message,mailing_lists_channel)
+            count = 0
 
-    for oldCount in range(-10,-9):
-        logging.info("oldEntry: %d",oldCount)
-        oldEntry = rssFeedPharoUsers["entries"][oldCount]
-        for newCount in range(-10,-9) :
-            logging.info("newEntry: %d",newCount)
-            newEntry = newRssFeedPharoUsers["entries"][newCount]
-            if oldEntry != newEntry:
-                count = count + 1
-                logging.info("\n%d)Found a new entry in the Pharo-Users rss\n",count)
-                entry = newEntry
-                message ="".join([ "{\"username\":\"Pharo-Users\", \"text\":\"", entry["link"], "\",\"attachments\": [ { \"author_name\": \"", entry["author"], "\", \"fields\": [{\"title\": \"" , entry["title"] , "\", \"value\": \" click link for content \" }]}]} "])
-                logging.info("will send message: "+message)
-                sendEmbMessage(message,"general")
-    count = 0
     rssFeedPharoUsers = newRssFeedPharoUsers
 
+    logging.info("\nChecking Pharo-Devs\n")
+    for newCount in range(0,len(newRssFeedPharoDevs)-1):
+        logging.info("[Pharo-Devs] newEntry: %d",newCount)
+        newEntry = newRssFeedPharoDevs["entries"][newCount]
+        entryFound = False
+        for oldCount in range(0,len(rssFeedPharoDevs)-1) :
+            logging.info("[Pharo-Devs] oldEntry: %d",oldCount)
+            oldEntry = rssFeedPharoDevs["entries"][oldCount]
+            if oldEntry["id"] == newEntry["id"]:
+                entryFound = True
+                break
 
-    """ for oldEntry in rssFeedPharoDevs["entries"]:
-        for newEntry in newRssFeedPharoDevs["entries"]:
-            if oldEntry != newEntry:
-                count = count + 1
-                logging.info("\n%d)Found a new entry in the Pharo-Devs rss\n",count)
-                entry = newEntry
-                message ="".join([ "{\"username\" : \"Pharo-Users\" , \"text\" : \"" , entry["link"] , "\",\"attachments\": [ { \"author_name\" : \"" , entry["author"] , "\", \"fields\": [{\"title\": \"" , entry["title"] , "\", \"value\":  \" click link for content \" }]}]} "])
+            entry = newEntry
+        if not entryFound:
+            count = count + 1
 
-                logging.info("will send message: "+message)
-                sendEmbMessage(message,"development")"""
+            logging.info("\n%d)Found a new entry in the Pharo-Devs rss\n",count)
+            content = html2text.html2text(entry["content"][0]["value"])
+            content = content[0:100]+" ... (click title for more)"
+            message = discord.Embed(title="[Pharo-Devs] "+entry["title"], url=entry["link"] ,colour = 14088353,  description = content)
+            message.set_author(name=entry["author"])
 
+            await sendEmbMessage(message,mailing_lists_channel)
+            count = 0
     rssFeedPharoDevs = newRssFeedPharoDevs
 
 # Enable info level logging
 logging.basicConfig(level=logging.INFO)
 
 
-description = '''An example bot to showcase the discord.ext.commands extension
-module.
-There are a number of utility commands being showcased here.'''
-bot = commands.Bot(command_prefix='?', description=description)
+
 
 @bot.event
 async def on_ready():
@@ -87,7 +108,7 @@ async def on_ready():
 @bot.event
 async def on_message(message):
     global loop
-    await checkRSSFeed()
+
 
 
     if "love pharo" in message.content.lower():
@@ -143,5 +164,19 @@ async def _bot():
     """Is the bot cool?"""
     await bot.say('Yes, the bot is cool.')
 
+async def main():
+     await checkRSSFeed(lighthouse_channel)
 
+async def my_background_task():
+    await bot.wait_until_ready()
+    counter = 0
+
+    while not bot.is_closed:
+        await main()
+        await asyncio.sleep(60) # task runs every 60 seconds
+
+
+
+
+bot.loop.create_task(my_background_task())
 bot.run(secret.token)
