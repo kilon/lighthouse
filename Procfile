@@ -1,0 +1,1 @@
+worker: python lighthouse.py
