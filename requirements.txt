@@ -1,2 +1,3 @@
 discord.py==0.14.3
 feedparser
+html2text
