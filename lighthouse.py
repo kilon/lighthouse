@@ -109,7 +109,7 @@ async def on_ready():
 async def on_message(message):
     global loop
 
-    await bot.process_commands(message)
+
 
     if "love pharo" in message.content.lower():
 
@@ -118,8 +118,9 @@ async def on_message(message):
     elif "hate pharo" in message.content.lower():
 
         await bot.send_message(message.channel, ':(  .... why ???')
-    else:
-        return
+
+
+    await bot.process_commands(message)
 
 
 
