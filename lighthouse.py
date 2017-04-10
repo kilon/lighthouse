@@ -109,7 +109,7 @@ async def on_ready():
 async def on_message(message):
     global loop
 
-
+    await bot.process_commands(message)
 
     if "love pharo" in message.content.lower():
 
