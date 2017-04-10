@@ -115,9 +115,11 @@ async def on_message(message):
 
         await bot.send_message(message.channel, 'Pharo is amazing :)')
 
-    if "hate pharo" in message.content.lower():
+    elif "hate pharo" in message.content.lower():
 
         await bot.send_message(message.channel, ':(  .... why ???')
+    else:
+        return
 
 
 
