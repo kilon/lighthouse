@@ -3,7 +3,7 @@ import discord
 from discord.ext import commands
 import random
 import secret
-
+import sqlite3
 import asyncio
 
 import logging
@@ -125,10 +125,6 @@ async def on_message(message):
 
 
 
-@bot.command()
-async def add(left : int, right : int):
-    """Adds two numbers together."""
-    await bot.say(left + right)
 
 @bot.command()
 async def roll(dice : str):
@@ -142,21 +138,15 @@ async def roll(dice : str):
     result = ', '.join(str(random.randint(1, limit)) for r in range(rolls))
     await bot.say(result)
 
-@bot.command(description='For when you wanna settle the score some other way')
-async def choose(*choices : str):
-    """Chooses between multiple choices."""
-    await bot.say(random.choice(choices))
 
 @bot.command(description='main documentation command')
-async def doc(*choices : str):
-    """Chooses between multiple choices."""
-    await bot.say(random.choice(choices))
+async def doc(*search_term : str):
+    """Search for pharo documentation"""
+    conn= sqlite3.connect('documentation.db')
+    c = conn.cursor()
+    conn.close()
+    await bot.say()
 
-@bot.command()
-async def repeat(times : int, content='repeating...'):
-    """Repeats a message multiple times."""
-    for i in range(times):
-        await bot.say(content)
 
 @bot.command()
 async def joined(member : discord.Member):
@@ -168,18 +158,7 @@ async def helpme():
     """display the bot documentation"""
     await bot.say('https://github.com/kilon/lighthouse/blob/master/README.md')
 
-@bot.group(pass_context=True)
-async def cool(ctx):
-    """Says if a user is cool.
-    In reality this just checks if a subcommand is being invoked.
-    """
-    if ctx.invoked_subcommand is None:
-        await bot.say('No, {0.subcommand_passed} is not cool'.format(ctx))
 
-@cool.command(name='bot')
-async def _bot():
-    """Is the bot cool?"""
-    await bot.say('Yes, the bot is cool.')
 
 async def main():
      await checkRSSFeed(lighthouse_channel)
