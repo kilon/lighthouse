@@ -147,6 +147,11 @@ async def choose(*choices : str):
     """Chooses between multiple choices."""
     await bot.say(random.choice(choices))
 
+@bot.command(description='main documentation command')
+async def doc(*choices : str):
+    """Chooses between multiple choices."""
+    await bot.say(random.choice(choices))
+
 @bot.command()
 async def repeat(times : int, content='repeating...'):
     """Repeats a message multiple times."""
