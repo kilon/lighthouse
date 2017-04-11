@@ -23,7 +23,7 @@ loop = asyncio.get_event_loop()
 description = '''An example bot to showcase the discord.ext.commands extension
 module.
 There are a number of utility commands being showcased here.'''
-bot = commands.Bot(command_prefix='?', description=description)
+bot = commands.Bot(command_prefix='!', description=description)
 lighthouse_channel = discord.Object(id=secret.channels["lighthouse"])
 general_channel =  discord.Object(id=secret.channels["general"])
 development_channel = discord.Object(id=secret.channels["development"])
@@ -156,7 +156,12 @@ async def repeat(times : int, content='repeating...'):
 @bot.command()
 async def joined(member : discord.Member):
     """Says when a member joined."""
-    await bot.say('{0.name} joined in {0.joined_at}'.format(member))
+    await bot.say('Welcome {0.name} at {0.joined_at}. If you have any questions, do not hesitate to ask. Type !help for the bot documentation'.format(member))
+
+@bot.command()
+async def help():
+    """display the bot documentation"""
+    await bot.say('https://github.com/kilon/lighthouse/blob/master/README.md')
 
 @bot.group(pass_context=True)
 async def cool(ctx):
