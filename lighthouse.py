@@ -156,10 +156,10 @@ async def repeat(times : int, content='repeating...'):
 @bot.command()
 async def joined(member : discord.Member):
     """Says when a member joined."""
-    await bot.say('Welcome {0.name} at {0.joined_at}. If you have any questions, do not hesitate to ask. Type !help for the bot documentation'.format(member))
+    await bot.say('Welcome {0.name} at {0.joined_at}. If you have any questions, do not hesitate to ask. Type !lhelpme for the bot documentation'.format(member))
 
 @bot.command()
-async def help():
+async def helpme():
     """display the bot documentation"""
     await bot.say('https://github.com/kilon/lighthouse/blob/master/README.md')
 
