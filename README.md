@@ -1,5 +1,9 @@
 # lighthouse
-A bot for Discord used in my Pharo server
+A bot for Discord used in my Pharo server. Lighthouse has several useful commands that can be to perform a wide array of task. 
+
+## Bot Commands
+
+### roll
 
 # Dependencies 
 This bot depends on python 3.6 and discord.py
