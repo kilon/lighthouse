@@ -5,7 +5,7 @@ A bot for Discord used in my Pharo server. Lighthouse has several useful command
 ## 1.2 Bot Commands
 Bot commands have to be prefixed with the "!" symbol
 
-### 1.2.1 roll
+### 1.2.1 !roll <no of times>d<no of values>
 The roll command is a game of roll dice that works using syntax "roll NdN" for example "!roll 3d6" this will throw the dice 3 time with values from 0-6
 
 # 2. Dependencies 
