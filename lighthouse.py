@@ -163,7 +163,10 @@ async def roll(dice : str):
 async def doc(*search_term : str):
     """Search for pharo documentation"""
     for term in search_term:
+        query ='select * from search_terms where search_term = \'{}\';'.format(term)
         result = cur.execute('select * from search_terms where search_term = \'{}\';'.format(term))
+        logging.info(str(query))
+        logging.info(str(result))
         await bot.say(str(result))
 
 
