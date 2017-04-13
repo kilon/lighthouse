@@ -164,7 +164,8 @@ async def doc(*search_term : str):
     """Search for pharo documentation"""
     global cur
     for term in search_term:
-        query ="""select * from search_terms where search_term = '{}';""".format(term)
+        query ="""SELECT * FROM search_terms WHERE search_term = '{}';""".format(term)
+        query ="""SELECT * FROM search_terms WHERE search_term = 'ephestos';"""
         result = cur.execute(query)
         logging.info(str(query))
         logging.info(str(result))
