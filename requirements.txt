@@ -2,3 +2,4 @@ discord.py==0.16.6
 feedparser
 html2text
 psycopg2
+urlparse
