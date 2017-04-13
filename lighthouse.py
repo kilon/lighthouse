@@ -30,7 +30,7 @@ conn = psycopg2.connect(
     host=url.hostname,
     port=url.port
 )
-
+cur = conn.cursor()
 # import requests
 
 respond = aiohttp.ClientSession()
@@ -162,10 +162,9 @@ async def roll(dice : str):
 @bot.command(description='main documentation command')
 async def doc(*search_term : str):
     """Search for pharo documentation"""
-    conn= sqlite3.connect('documentation.db')
-    c = conn.cursor()
-    conn.close()
-    await bot.say()
+    for term in search_term:
+        result = cur.execute('select * from search_terms where search_term = \'{}\';'.format(term))
+        await bot.say(str(result))
 
 
 @bot.command()
