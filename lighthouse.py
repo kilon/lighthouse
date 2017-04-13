@@ -11,6 +11,22 @@ import logging
 import feedparser
 import aiohttp
 import html2text
+
+import os
+import psycopg2
+import urlparse
+
+urlparse.uses_netloc.append("postgres")
+url = urlparse.urlparse(os.environ["postgres://hftqnpriogavfy:3cc3a7d53d679911cede3a24243aa82c0c977ce1b831b87eca60f56e3806b7bc@ec2-54-228-235-185.eu-west-1.compute.amazonaws.com:5432/de4g4ikug101fh"])
+
+conn = psycopg2.connect(
+    database=url.path[1:],
+    user=url.username,
+    password=url.password,
+    host=url.hostname,
+    port=url.port
+)
+
 # import requests
 
 respond = aiohttp.ClientSession()
