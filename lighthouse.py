@@ -167,9 +167,10 @@ async def doc(*search_term : str):
         query ="""SELECT * FROM search_terms WHERE search_term = '{}';""".format(term)
 
         result = cur.execute(query)
+        row = cur.fetchall()
         logging.info(str(query))
-        logging.info(type(result))
-        await bot.say(str(result))
+        logging.info(type(row))
+        await bot.say(str(row))
 
 
 @bot.command()
