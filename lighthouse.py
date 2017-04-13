@@ -177,9 +177,9 @@ async def docadd(search_term : str, content:str, tags:str , links:str ):
     global cur,conn
 
     sql = """INSERT INTO search_terms
-                    VALUES(%s) RETURNING vendor_id;"""
+                    VALUES({},{},{},{});""".format(search_term, content, tags, links)
 
-    result = cur.execute(sql,search_term,content,tags,links)
+    result = cur.execute(sql)
     conn.commit()
 
     await bot.say('new entry inserted')
