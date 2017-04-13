@@ -170,7 +170,7 @@ async def doc(*search_term : str):
         row = cur.fetchall()
         logging.info(str(query))
         logging.info(type(row))
-        await bot.say(str(row))
+        await bot.say(str(row[1]))
 
 
 @bot.command()
