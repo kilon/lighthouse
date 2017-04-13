@@ -170,7 +170,7 @@ async def doc(*search_term : str):
         row = cur.fetchall()
         logging.info(str(query))
         logging.info(type(row))
-        await bot.say(str(row[0]))
+        await bot.say(str(row[0][1]))
 @bot.command(description='main documentation command')
 async def docadd(search_term : str, content:str, tags:str , links:str ):
     """<search_term content tags links> Search for pharo documentation"""
