@@ -17,6 +17,9 @@ import psycopg2
 import urlparse3
 from urllib.parse import urlparse
 
+# Enable info level logging
+logging.basicConfig(level=logging.INFO)
+
 #urlparse3.uses_netloc.append("postgres")
 url = urlparse("postgres://hftqnpriogavfy:3cc3a7d53d679911cede3a24243aa82c0c977ce1b831b87eca60f56e3806b7bc@ec2-54-228-235-185.eu-west-1.compute.amazonaws.com:5432/de4g4ikug101fh")
 
@@ -110,7 +113,7 @@ async def checkRSSFeed(channel):
     rssFeedPharoDevs = newRssFeedPharoDevs
 
 # Enable info level logging
-logging.basicConfig(level=logging.INFO)
+#logging.basicConfig(level=logging.INFO)
 
 
 
