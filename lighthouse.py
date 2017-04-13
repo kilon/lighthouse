@@ -165,10 +165,10 @@ async def doc(*search_term : str):
     global cur
     for term in search_term:
         query ="""SELECT * FROM search_terms WHERE search_term = '{}';""".format(term)
-        query ="""SELECT * FROM search_terms WHERE search_term = 'ephestos';"""
+
         result = cur.execute(query)
         logging.info(str(query))
-        logging.info(str(result))
+        logging.info(type(result))
         await bot.say(str(result))
 
 
