@@ -14,7 +14,7 @@ import html2text
 
 import os
 import psycopg2
-import urlparse3
+import urlparse3 as urlparse
 import urllib
 
 urlparse.uses_netloc.append("postgres")
