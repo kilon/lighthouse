@@ -161,7 +161,7 @@ async def roll(dice : str):
 
 @bot.command(description='main documentation command')
 async def doc(*search_term : str):
-    """Search for pharo documentation"""
+    """<search terms seperated with space> Search for pharo documentation"""
     global cur
     for term in search_term:
         query ="""SELECT * FROM search_terms WHERE search_term = '{}';""".format(term)
@@ -171,6 +171,19 @@ async def doc(*search_term : str):
         logging.info(str(query))
         logging.info(type(row))
         await bot.say(str(row[1]))
+@bot.command(description='main documentation command')
+async def docadd(search_term : str, content:str, tags:str , links:str ):
+    """<search_term content tags links> Search for pharo documentation"""
+    global cur,conn
+
+    sql = """INSERT INTO search_terms
+                    VALUES(%s) RETURNING vendor_id;"""
+
+    result = cur.execute(sql,search_term,content,tags,links)
+    conn.commit()
+
+    await bot.say('new entry inserted')
+
 
 
 @bot.command()
