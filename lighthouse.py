@@ -177,7 +177,7 @@ async def docadd(search_term : str, content:str, tags:str , links:str ):
     global cur,conn
 
     sql = """INSERT INTO search_terms
-                    VALUES({},{},{},{});""".format(search_term, content, tags, links)
+                    VALUES('{}','{}',"\{'{}'\}","\{'{}'\}");""".format(search_term, content, tags, links)
 
     result = cur.execute(sql)
     conn.commit()
