@@ -177,7 +177,7 @@ async def doc(*search_term : str):
 async def docadd(**kargs):
     """<search_term content tags links> Search for pharo documentation"""
     global cur, conn
-
+    logging.info(" kargs : {}".format(kargs))
     sql = """INSERT INTO search_terms
                     VALUES('{}','{}',"{}","{}");""".format(kargs["search_term"], kargs["content"], kargs["tags"], kargs["links"])
 
