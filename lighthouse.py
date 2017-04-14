@@ -187,7 +187,7 @@ async def docadd(*args):
 
 @bot.command(description='add entry to documentation')
 async def docremove(search_term):
-    sql = """DELETE FROM search_terms WHERE search_term='{}';""".format(search_term)
+    sql = """DELETE FROM search_terms WHERE search_terms.search_term='{}';""".format(search_term)
     result = cur.execute(sql)
     conn.commit()
 
