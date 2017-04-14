@@ -168,7 +168,7 @@ async def doc(*search_term : str):
         await bot.say(str(row[0][1]))
 
 
-@bot.command(description='main documentation command')
+@bot.command(description='add entry to documentation')
 async def docadd(*args):
     """<search_term content tags links> Search for pharo documentation"""
     global cur, conn
@@ -184,6 +184,12 @@ async def docadd(*args):
     conn.commit()
 
     await bot.say('new entry inserted')
+
+@bot.command(description='add entry to documentation')
+async def docremove(search_term):
+    sql = """DELETE FROM search_terms WHERE search_term='{}';""".format(search_term)
+    result = cur.execute(sql)
+    conn.commit()
 
 
 
