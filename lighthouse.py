@@ -56,19 +56,16 @@ async def sendEmbMessage(message,channel):
 
 async def checkRSSFeed(channel):
     global rssFeedPharoUsers, rssFeedPharoDevs
-    logging.info("checking RSS feeds")
     count = 0
     newRssFeedPharoUsers = feedparser.parse("http://forum.world.st/Pharo-Smalltalk-Users-f1310670.xml")
     newRssFeedPharoDevs = feedparser.parse("http://forum.world.st/Pharo-Smalltalk-Developers-f1294837.xml")
     entryFound= False
-    logging.info("\nChecking Pharo-Users\n")
-    logging.info("Pharo-users len new: %d", len(newRssFeedPharoUsers))
+
     for newCount in range(0,len(newRssFeedPharoUsers)-1):
         logging.info("[Pharo-Users] newEntry: %d",newCount)
         entryFound = False
         newEntry = newRssFeedPharoUsers["entries"][newCount]
         for oldCount in range(0,len(rssFeedPharoUsers)-1) :
-            logging.info("[Pharo-Users] oldEntry: %d",oldCount)
             oldEntry = rssFeedPharoUsers["entries"][oldCount]
             if oldEntry["id"] == newEntry["id"] :
                 entryFound = True
@@ -86,13 +83,12 @@ async def checkRSSFeed(channel):
 
     rssFeedPharoUsers = newRssFeedPharoUsers
 
-    logging.info("\nChecking Pharo-Devs\n")
     for newCount in range(0,len(newRssFeedPharoDevs)-1):
-        logging.info("[Pharo-Devs] newEntry: %d",newCount)
+
         newEntry = newRssFeedPharoDevs["entries"][newCount]
         entryFound = False
         for oldCount in range(0,len(rssFeedPharoDevs)-1) :
-            logging.info("[Pharo-Devs] oldEntry: %d",oldCount)
+
             oldEntry = rssFeedPharoDevs["entries"][oldCount]
             if oldEntry["id"] == newEntry["id"]:
                 entryFound = True
