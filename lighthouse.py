@@ -62,7 +62,6 @@ async def checkRSSFeed(channel):
     entryFound= False
 
     for newCount in range(0,len(newRssFeedPharoUsers)-1):
-        logging.info("[Pharo-Users] newEntry: %d",newCount)
         entryFound = False
         newEntry = newRssFeedPharoUsers["entries"][newCount]
         for oldCount in range(0,len(rssFeedPharoUsers)-1) :
@@ -174,7 +173,7 @@ async def docadd(*args):
     """<search_term content tags links> Search for pharo documentation"""
     global cur, conn
     logging.info(" args : {}".format(args))
-    sql = """INSERT INTO search_terms
+    sql = """INSERT INTO search_terms (search_term,content,tags,links)
                     VALUES('{}','{}',"{}","{}");""".format(args[0], args[1], args[2], args[3])
     logging.info("sql : {}".format(sql))
     result = cur.execute(sql)
