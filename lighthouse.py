@@ -181,8 +181,8 @@ async def docadd(*args):
     sql = """INSERT INTO search_terms
                     VALUES('{}','{}',"{}","{}");""".format(args[0], args[1], args[2], args[3])
     logging.info("sql : {}".format(sql))
-#    result = cur.execute(sql)
-#    conn.commit()
+    result = cur.execute(sql)
+    conn.commit()
 
     await bot.say('new entry inserted')
 
