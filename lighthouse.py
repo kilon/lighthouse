@@ -173,8 +173,12 @@ async def docadd(*args):
     """<search_term content tags links> Search for pharo documentation"""
     global cur, conn
     logging.info(" args : {}".format(args))
+    search_term = args[0]
+    content = args[1]
+    tags = args[2].replace("'",'"')
+    links = args[3].replace("'",'"')
     sql = """INSERT INTO search_terms (search_term,content,tags,links)
-                    VALUES('{}','{}','{}','{}');""".format(args[0], args[1], args[2].replace('"',"'"), args[3].replace('"',"'"))
+                    VALUES('{}','{}','{}','{}');""".format(search_term, content, tags, links)
     logging.info("sql : {}".format(sql))
     result = cur.execute(sql)
     conn.commit()
