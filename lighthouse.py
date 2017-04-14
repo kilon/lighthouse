@@ -174,7 +174,7 @@ async def doc(*search_term : str):
 
 
 @bot.command(description='main documentation command')
-async def docadd(**kargs):
+async def docadd(*kargs):
     """<search_term content tags links> Search for pharo documentation"""
     global cur, conn
     logging.info(" kargs : {}".format(kargs))
