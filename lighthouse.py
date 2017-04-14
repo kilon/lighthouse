@@ -124,7 +124,7 @@ async def on_ready():
     print(bot.user.name)
     print(bot.user.id)
     print('------')
-
+'\'
 @bot.event
 async def on_message(message):
     global loop
@@ -172,18 +172,19 @@ async def doc(*search_term : str):
         logging.info(type(row))
         await bot.say(str(row[0][1]))
 
-#@bot.command(description='main documentation command')
-#async def docadd(search_term : str, content:str, tags:str , links:str ):
-#    """<search_term content tags links> Search for pharo documentation"""
-#    global cur,conn
 
-#    sql = """INSERT INTO search_terms
-#                    VALUES('{}','{}',"\{'{}'\}","\{'{}'\}");""".format(search_term, content, tags, links)
+@bot.command(description='main documentation command')
+async def docadd(**kargs):
+    """<search_term content tags links> Search for pharo documentation"""
+    global cur, conn
 
-#    result = cur.execute(sql)
-#    conn.commit()
+    sql = """INSERT INTO search_terms
+                    VALUES('{}','{}',"{}","{}");""".format(kargs["search_term"], kargs["content"], kargs["tags"], kargs["links"])
 
- #   await bot.say('new entry inserted')
+    result = cur.execute(sql)
+    conn.commit()
+
+    await bot.say('new entry inserted')
 
 
 
