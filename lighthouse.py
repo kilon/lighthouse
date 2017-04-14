@@ -173,10 +173,27 @@ async def docadd(*args):
     """<search_term content tags links> Search for pharo documentation"""
     global cur, conn
     logging.info(" args : {}".format(args))
-    search_term = args[0]
-    content = args[1]
-    tags = args[2].replace("'",'"')
-    links = args[3].replace("'",'"')
+    if len(args)<2 or len(args)>4:
+        await bot.say('Wrong syntax used! Too few arguments')
+        return
+    elif len(args)==2:
+        search_term = args[0]
+        content = args[1]
+        tags = "{''}"
+        links = "{''}"
+    elif len(args)==3:
+        search_term = args[0]
+        content = args[1]
+        tags = args[2].replace("'",'"')
+        links = "{''}"
+    elif len(args)==4:
+        search_term = args[0]
+        content = args[1]
+        tags = args[2].replace("'", '"')
+        links = args[3].replace("'",'"')
+    else:
+        await bot.say("Wrong syntax used!Too many arguments")
+        return
     sql = """INSERT INTO search_terms (search_term,content,tags,links)
                     VALUES('{}','{}','{}','{}');""".format(search_term, content, tags, links)
     logging.info("sql : {}".format(sql))
