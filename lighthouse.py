@@ -174,12 +174,12 @@ async def doc(*search_term : str):
 
 
 @bot.command(description='main documentation command')
-async def docadd(*kargs):
+async def docadd(*args):
     """<search_term content tags links> Search for pharo documentation"""
     global cur, conn
-    logging.info(" kargs : {}".format(kargs))
+    logging.info(" args : {}".format(args))
     sql = """INSERT INTO search_terms
-                    VALUES('{}','{}',"{}","{}");""".format(kargs["search_term"], kargs["content"], kargs["tags"], kargs["links"])
+                    VALUES('{}','{}',"{}","{}");""".format(args[0], args[1], args[2], args[3])
     logging.info("sql : {}".format(sql))
 #    result = cur.execute(sql)
 #    conn.commit()
