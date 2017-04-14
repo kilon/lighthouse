@@ -174,7 +174,7 @@ async def docadd(*args):
     global cur, conn
     logging.info(" args : {}".format(args))
     sql = """INSERT INTO search_terms (search_term,content,tags,links)
-                    VALUES('{}','{}',"{}","{}");""".format(args[0], args[1], args[2], args[3])
+                    VALUES('{}','{}','{}','{}');""".format(args[0], args[1], args[2], args[3])
     logging.info("sql : {}".format(sql))
     result = cur.execute(sql)
     conn.commit()
