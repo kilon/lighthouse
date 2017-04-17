@@ -30,7 +30,7 @@ conn = psycopg2.connect(
     host=url.hostname,
     port=url.port
 )
-logging.info('Database : {} | user: {} | password: {} | host: {} | port: {} '.format(url.path[1:],url.user,url.password,url.hostname,url.port))
+logging.info('Database : {} | user: {} | password: {} | host: {} | port: {} '.format(url.path[1:],url.username,url.password,url.hostname,url.port))
 cur = conn.cursor()
 # import requests
 
