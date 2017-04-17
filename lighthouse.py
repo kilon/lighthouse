@@ -200,7 +200,7 @@ async def docadd(*args):
     result = cur.execute(sql)
     conn.commit()
 
-    await bot.say('new entry ['+args[1].lower()+'] inserted')
+    await bot.say('new entry ['+args[0].lower()+'] inserted')
 
 @bot.command(description='add entry to documentation')
 async def docremove(search_term):
