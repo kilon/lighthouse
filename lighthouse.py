@@ -159,11 +159,11 @@ async def doc(*search_term : str):
     """<search terms seperated with space> Search for pharo documentation"""
     global cur
     for term in search_term:
-        query ="""SELECT * FROM search_terms WHERE search_term = '{}';""".format(term)
+        query ="""SELECT * FROM search_terms WHERE search_term = '{}';""".format(term.lower())
 
         result = cur.execute(query)
         row = cur.fetchall()
-        logging.info(str(query))
+        logging.info(str(row[0][1]))
         logging.info(type(row))
         await bot.say(str(row[0][1]))
 
@@ -177,17 +177,17 @@ async def docadd(*args):
         await bot.say('Wrong syntax used! Too few arguments')
         return
     elif len(args)==2:
-        search_term = args[0]
+        search_term = args[0].lower()
         content = args[1]
         tags = "{''}"
         links = "{''}"
     elif len(args)==3:
-        search_term = args[0]
+        search_term = args[0].lower()
         content = args[1]
         tags = args[2].replace("'",'"')
         links = "{''}"
     elif len(args)==4:
-        search_term = args[0]
+        search_term = args[0].lower()
         content = args[1]
         tags = args[2].replace("'", '"')
         links = args[3].replace("'",'"')
@@ -200,13 +200,14 @@ async def docadd(*args):
     result = cur.execute(sql)
     conn.commit()
 
-    await bot.say('new entry inserted')
+    await bot.say('new entry ['+args[1].lower()+'] inserted')
 
 @bot.command(description='add entry to documentation')
 async def docremove(search_term):
     sql = """DELETE FROM search_terms WHERE search_terms.search_term='{}';""".format(search_term)
     result = cur.execute(sql)
     conn.commit()
+    await bot.say('entry has been removed!')
 
 
 
