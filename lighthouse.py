@@ -170,7 +170,7 @@ async def doc(*search_term : str):
     global cur
     query_term=''
 
-    for x  in range(0,len(search_term)-1):
+    for x  in range(0,len(search_term)):
         term = search_term[x]
         if x ==0:
             query_term = term
