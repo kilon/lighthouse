@@ -19,7 +19,10 @@ You can also accomplish the same result with what is keywords. Case is ignored. 
 ```
 what is pharo
 ```
-
+adding a questionmark in the end is also acceptable
+```
+what is pharo ?
+```
 # 2. Dependencies 
 This bot depends on python 3.6 and discord.py
 
