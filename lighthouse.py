@@ -169,8 +169,10 @@ async def doc(*search_term : str):
     """<search terms seperated with space> Search terms in  pharo documentation"""
     global cur
     query_term=''
+
     for term in search_term:
         query_term = query_term+' '+term
+    logging.info('query term:'.format(query_term))
     query ="""SELECT * FROM search_terms WHERE search_term = '{}';""".format(query_term.lower())
     logging.info(query)
     result = cur.execute(query)
