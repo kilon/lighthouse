@@ -5,7 +5,7 @@ import random
 import secret
 import sqlite3
 import asyncio
-
+import re
 import logging
 
 import feedparser
@@ -135,8 +135,14 @@ async def on_message(message):
     elif "hate pharo" in message.content.lower():
 
         await bot.send_message(message.channel, ':(  .... why ???')
-    elif "what is" in message.content.lower():
-        logging.info('the message for what is: {}'.format(message.content))
+
+    elif "what is" in message.content.lower() and message.content[0]!='!':
+        words = re.split('''.*what is|[ ?.;!"']''',message.content.lower())
+        for word in words:
+            if word !='':
+                search_terms=[word]
+                doc(word)
+
 
 
     await bot.process_commands(message)
