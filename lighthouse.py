@@ -136,10 +136,10 @@ async def on_message(message):
 
         await bot.send_message(message.channel, ':(  .... why ???')
     elif "what is" in message.content.lower():
-        logging.info('the message for what is: {}'.format(message))
+        logging.info('the message for what is: {}'.format(message.content))
 
 
-    await bot.process_commands(message.content)
+    await bot.process_commands(message)
 
 
 
