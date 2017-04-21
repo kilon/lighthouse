@@ -11,8 +11,14 @@ The roll command is a game of roll dice that works using syntax "roll NdN" for e
 Will send you to this documentation
 ### 1.2.3 doc \<search_terms\>
 A documentation command that help you find several terms in pharo documentation. For example
-```!doc roassal pharo``` 
+```
+!doc roassal pharo 
+``` 
 This command will search for terms roassal and pharo and will return separate results for each. 
+You can also accomplish the same result with what is keywords. Case is ignored. For example
+```
+what is pharo
+```
 
 # 2. Dependencies 
 This bot depends on python 3.6 and discord.py
