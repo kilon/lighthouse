@@ -12,12 +12,12 @@ The roll command is a game of roll dice that works using syntax "roll NdN" for e
 ### 1.2.2 helpme
 Will send you to this documentation
 
-### 1.2.3 doc \<search_terms\>
-A documentation command that help you find several terms in pharo documentation. For example
+### 1.2.3 doc \<search_term\>
+A documentation command that help you find a search term (the terms can be one or more words separated by space) in pharo documentation. For example
 ```
-!doc roassal pharo 
+!doc roassal  
 ``` 
-This command will search for terms roassal and pharo and will return separate results for each. 
+This command will search for term roassal and will return separate results for each. 
 You can also accomplish the same result with **what is** keywords. Case is ignored. For example
 ```
 what is pharo
@@ -26,7 +26,7 @@ adding a questionmark in the end is also acceptable
 ```
 what is pharo ?
 ```
-Bare in mind that **what is** will search documentation for the first word after the keywords seperated by space. Unlike **!doc** command cannot search for multiple words.
+Bare in mind that **what is** will search documentation for the first word after the keywords seperated by space. 
 
 # 2. Dependencies 
 This bot depends on python 3.6 and discord.py
