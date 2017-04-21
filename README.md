@@ -1,4 +1,5 @@
 # 1. Documentation
+
 ## 1.1 About
 A bot for Discord used in my Pharo server. Lighthouse has several useful commands that can be to perform a wide array of task. 
 
@@ -7,15 +8,17 @@ Bot commands have to be prefixed with the "!" symbol
 
 ### 1.2.1 roll \<no of times\>d\<no of values\>
 The roll command is a game of roll dice that works using syntax "roll NdN" for example "!roll 3d6" this will throw the dice 3 time with values from 0-6
+
 ### 1.2.2 helpme
 Will send you to this documentation
+
 ### 1.2.3 doc \<search_terms\>
 A documentation command that help you find several terms in pharo documentation. For example
 ```
 !doc roassal pharo 
 ``` 
 This command will search for terms roassal and pharo and will return separate results for each. 
-You can also accomplish the same result with what is keywords. Case is ignored. For example
+You can also accomplish the same result with **what is** keywords. Case is ignored. For example
 ```
 what is pharo
 ```
@@ -23,6 +26,8 @@ adding a questionmark in the end is also acceptable
 ```
 what is pharo ?
 ```
+Bare in mind that **what is** will search documentation for the first word after the keywords seperated by space. Unlikey **!doc** command cannot search for multiple words.
+
 # 2. Dependencies 
 This bot depends on python 3.6 and discord.py
 
