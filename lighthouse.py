@@ -11,6 +11,27 @@ import logging
 import feedparser
 import aiohttp
 import html2text
+
+import os
+import psycopg2
+import urlparse3
+from urllib.parse import urlparse
+
+# Enable info level logging
+logging.basicConfig(level=logging.INFO)
+
+#urlparse3.uses_netloc.append("postgres")
+url = urlparse("postgres://hftqnpriogavfy:3cc3a7d53d679911cede3a24243aa82c0c977ce1b831b87eca60f56e3806b7bc@ec2-54-228-235-185.eu-west-1.compute.amazonaws.com:5432/de4g4ikug101fh")
+
+conn = psycopg2.connect(
+    database=url.path[1:],
+    user=url.username,
+    password=url.password,
+    host=url.hostname,
+    port=url.port
+)
+logging.info('Database : {} | user: {} | password: {} | host: {} | port: {} '.format(url.path[1:],url.username,url.password,url.hostname,url.port))
+cur = conn.cursor()
 # import requests
 
 respond = aiohttp.ClientSession()
@@ -36,7 +57,6 @@ async def sendEmbMessage(message,channel):
 
 async def checkRSSFeed(channel):
     global rssFeedPharoUsers, rssFeedPharoDevs
-    logging.info("checking RSS feeds")
     count = 0
     newRssFeedPharoUsers = feedparser.parse("http://forum.world.st/Pharo-Smalltalk-Users-f1310670.xml")
     newRssFeedPharoDevs = feedparser.parse("http://forum.world.st/Pharo-Smalltalk-Developers-f1294837.xml")
@@ -44,11 +64,9 @@ async def checkRSSFeed(channel):
     logging.info("\nChecking Pharo-Users\n")
     logging.info("Pharo-users len new: %d", len(newRssFeedPharoUsers))
     for newCount in range(0,len(newRssFeedPharoUsers)-1):
-        logging.info("[Pharo-Users] newEntry: %d",newCount)
         entryFound = False
         newEntry = newRssFeedPharoUsers["entries"][newCount]
         for oldCount in range(0,len(rssFeedPharoUsers)-1) :
-            logging.info("[Pharo-Users] oldEntry: %d",oldCount)
             oldEntry = rssFeedPharoUsers["entries"][oldCount]
             if oldEntry["id"] == newEntry["id"] :
                 entryFound = True
@@ -66,13 +84,12 @@ async def checkRSSFeed(channel):
 
     rssFeedPharoUsers = newRssFeedPharoUsers
 
-    logging.info("\nChecking Pharo-Devs\n")
     for newCount in range(0,len(newRssFeedPharoDevs)-1):
-        logging.info("[Pharo-Devs] newEntry: %d",newCount)
+
         newEntry = newRssFeedPharoDevs["entries"][newCount]
         entryFound = False
         for oldCount in range(0,len(rssFeedPharoDevs)-1) :
-            logging.info("[Pharo-Devs] oldEntry: %d",oldCount)
+
             oldEntry = rssFeedPharoDevs["entries"][oldCount]
             if oldEntry["id"] == newEntry["id"]:
                 entryFound = True
@@ -93,7 +110,7 @@ async def checkRSSFeed(channel):
     rssFeedPharoDevs = newRssFeedPharoDevs
 
 # Enable info level logging
-logging.basicConfig(level=logging.INFO)
+#logging.basicConfig(level=logging.INFO)
 
 
 
@@ -141,11 +158,59 @@ async def roll(dice : str):
 
 @bot.command(description='main documentation command')
 async def doc(*search_term : str):
-    """<search_terms> Search terms in pharo documentation"""
-    conn= sqlite3.connect('documentation.db')
-    c = conn.cursor()
-    conn.close()
-    await bot.say()
+    """<search terms seperated with space> Search terms in  pharo documentation"""
+    global cur
+    for term in search_term:
+        query ="""SELECT * FROM search_terms WHERE search_term = '{}';""".format(term.lower())
+
+        result = cur.execute(query)
+        row = cur.fetchall()
+        logging.info(str(row[0][1]))
+        logging.info(type(row))
+        await bot.say(str(row[0][1]))
+
+
+@bot.command(description='add entry to documentation')
+async def docadd(*args):
+    """<search_term content tags links> Search for pharo documentation"""
+    global cur, conn
+    logging.info(" args : {}".format(args))
+    if len(args)<2 or len(args)>4:
+        await bot.say('Wrong syntax used! Too few arguments')
+        return
+    elif len(args)==2:
+        search_term = args[0].lower()
+        content = args[1]
+        tags = "{''}"
+        links = "{''}"
+    elif len(args)==3:
+        search_term = args[0].lower()
+        content = args[1]
+        tags = args[2].replace("'",'"')
+        links = "{''}"
+    elif len(args)==4:
+        search_term = args[0].lower()
+        content = args[1]
+        tags = args[2].replace("'", '"')
+        links = args[3].replace("'",'"')
+    else:
+        await bot.say("Wrong syntax used!Too many arguments")
+        return
+    sql = """INSERT INTO search_terms (search_term,content,tags,links)
+                    VALUES('{}','{}','{}','{}');""".format(search_term, content, tags, links)
+    logging.info("sql : {}".format(sql))
+    result = cur.execute(sql)
+    conn.commit()
+
+    await bot.say('new entry ['+args[0].lower()+'] inserted')
+
+@bot.command(description='add entry to documentation')
+async def docremove(search_term):
+    sql = """DELETE FROM search_terms WHERE search_terms.search_term='{}';""".format(search_term.lower())
+    result = cur.execute(sql)
+    conn.commit()
+    await bot.say('entry: [ '+search_term.lower()+ ' ] has been removed!')
+
 
 
 @bot.command()
