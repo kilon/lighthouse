@@ -141,7 +141,7 @@ async def roll(dice : str):
 
 @bot.command(description='main documentation command')
 async def doc(*search_term : str):
-    """Search for pharo documentation"""
+    """<search_terms> Search terms in pharo documentation"""
     conn= sqlite3.connect('documentation.db')
     c = conn.cursor()
     conn.close()
@@ -155,7 +155,7 @@ async def joined(member : discord.Member):
 
 @bot.command()
 async def helpme():
-    """display the bot documentation"""
+    """display the detailed bot documentation"""
     await bot.say('https://github.com/kilon/lighthouse/blob/master/README.md')
 
 
