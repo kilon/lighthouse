@@ -135,6 +135,8 @@ async def on_message(message):
     elif "hate pharo" in message.content.lower():
 
         await bot.send_message(message.channel, ':(  .... why ???')
+    elif "what is" in message.content.lower():
+        logging.info('the message for what is: {}'.format(message))
 
 
     await bot.process_commands(message)
