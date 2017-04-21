@@ -137,7 +137,7 @@ async def on_message(message):
         await bot.send_message(message.channel, ':(  .... why ???')
 
     elif "what is" in message.content.lower() and message.content[0]!='!':
-        words = re.split('''.*what is|[ ?.;!"']''',message.content.lower())
+        words = re.split('''.*what is|[ ?.;!"'@\(\)]''',message.content.lower())
         for word in words:
             if word !='':
                 search_term=word
