@@ -26,7 +26,7 @@ adding a questionmark in the end is also acceptable
 ```
 what is pharo ?
 ```
-Bare in mind that **what is** will search documentation for the first word after the keywords seperated by space. Unlikey **!doc** command cannot search for multiple words.
+Bare in mind that **what is** will search documentation for the first word after the keywords seperated by space. Unlike **!doc** command cannot search for multiple words.
 
 # 2. Dependencies 
 This bot depends on python 3.6 and discord.py
