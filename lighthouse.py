@@ -140,8 +140,8 @@ async def on_message(message):
         words = re.split('''.*what is|[ ?.;!"']''',message.content.lower())
         for word in words:
             if word !='':
-                search_terms=[word]
-                doc(word)
+                search_term=word
+                message.content = '!doc '+word
 
 
 
