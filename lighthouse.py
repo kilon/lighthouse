@@ -173,7 +173,7 @@ async def doc(*search_term : str):
         query_term = query_term+' '+term
     query ="""SELECT * FROM search_terms WHERE search_term = '{}';""".format(query_term.lower())
 
-    result = cur.execute(query)
+    result = cur.execute(query_term)
     row = cur.fetchall()
     logging.info(str(row[0][1]))
     logging.info(type(row))
