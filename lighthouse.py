@@ -170,8 +170,12 @@ async def doc(*search_term : str):
     global cur
     query_term=''
 
-    for term in search_term:
-        query_term = query_term+' '+term
+    for x  in range(0,len(search_term)-1):
+        term = search_term[x]
+        if x ==0:
+            query_term = term
+        else:
+            query_term = query_term+' '+term
     logging.info('query term:'.format(query_term))
     query ="""SELECT * FROM search_terms WHERE search_term = '{}';""".format(query_term.lower())
     logging.info(query)
