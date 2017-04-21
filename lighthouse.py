@@ -30,7 +30,7 @@ conn = psycopg2.connect(
     host=url.hostname,
     port=url.port
 )
-logging.info('Database : {} | user: {} | password: {} | host: {} | port: {} '.format(url.path[1:],url.username,url.password,url.hostname,url.port))
+# logging.info('Database : {} | user: {} | password: {} | host: {} | port: {} '.format(url.path[1:],url.username,url.password,url.hostname,url.port))
 cur = conn.cursor()
 # import requests
 
@@ -182,8 +182,9 @@ async def doc(*search_term : str):
     logging.info(query)
     result = cur.execute(query)
     row = cur.fetchall()
-    logging.info(str(row[0][1]))
-    logging.info(type(row))
+    if row !=None:
+        logging.info(str(row[0][1]))
+        logging.info(type(row))
     await bot.say(str(row[0][1]))
 
 
