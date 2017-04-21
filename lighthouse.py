@@ -168,14 +168,16 @@ async def roll(dice : str):
 async def doc(*search_term : str):
     """<search terms seperated with space> Search terms in  pharo documentation"""
     global cur
+    query_term=''
     for term in search_term:
-        query ="""SELECT * FROM search_terms WHERE search_term = '{}';""".format(term.lower())
+        query_term = query_term+' '+term
+    query ="""SELECT * FROM search_terms WHERE search_term = '{}';""".format(query_term.lower())
 
-        result = cur.execute(query)
-        row = cur.fetchall()
-        logging.info(str(row[0][1]))
-        logging.info(type(row))
-        await bot.say(str(row[0][1]))
+    result = cur.execute(query)
+    row = cur.fetchall()
+    logging.info(str(row[0][1]))
+    logging.info(type(row))
+    await bot.say(str(row[0][1]))
 
 
 @bot.command(description='add entry to documentation')
