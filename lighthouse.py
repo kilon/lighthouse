@@ -139,7 +139,7 @@ async def on_message(message):
         logging.info('the message for what is: {}'.format(message))
 
 
-    await bot.process_commands(message)
+    await bot.process_commands(message.content)
 
 
 
