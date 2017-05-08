@@ -190,7 +190,7 @@ async def doc(*search_term : str):
 
 @bot.command(description='add entry to documentation')
 async def docadd(*args):
-    """<search_term content tags links> Search for pharo documentation"""
+    """<search_term content tags links> add a new entry to bot's database"""
     global cur, conn
     logging.info(" args : {}".format(args))
     if len(args)<2 or len(args)>4:
@@ -224,6 +224,7 @@ async def docadd(*args):
 
 @bot.command(description='add entry to documentation')
 async def docremove(search_term):
+    """removes an entry from bot's documentation database"""
     sql = """DELETE FROM search_terms WHERE search_terms.search_term='{}';""".format(search_term.lower())
     result = cur.execute(sql)
     conn.commit()
